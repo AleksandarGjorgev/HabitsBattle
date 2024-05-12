@@ -5,10 +5,9 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
+  { name: "Home", href: "#", current: true },
+  { name: "Tasks", href: "#", current: false },
+  { name: "Baracks", href: "#", current: false },
 ];
 
 function classNames(...classes) {
@@ -35,11 +34,18 @@ const Navbar = () => {
               </div>
               <div className="flex flex-1 items-center justify-center sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="h-20 w-auto"
-                    src="/img/logo_transparent.png"
-                    alt="Your Company"
-                  />
+                  <a href="#">
+                    <img
+                      className="h-20 w-auto"
+                      src="/img/logo_transparent.png"
+                      alt="Your Company"
+                    />
+                  </a>
+                </div>
+                <div className="hidden sm:ml-6 sm:block">
+                  <button className="battle_button text-4xl text-white rounded-2xl px-3 py-2">
+                    Battle
+                  </button>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-3">
@@ -51,7 +57,7 @@ const Navbar = () => {
                           item.current
                             ? "item_active bg_last_color text-white"
                             : "text-gray-300 hover:text-white",
-                          "rounded-md px-3 py-2 text-xl font-medium nav_items"
+                          "rounded-md text-xl font-medium nav_items"
                         )}
                         aria-current={item.current ? "page" : undefined}
                       >

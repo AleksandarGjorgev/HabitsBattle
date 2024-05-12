@@ -16,11 +16,20 @@ body{
 }
 
 
-.nav_items:hover{
-  transition: 0.5s;
-  transform: translateY(-5px)
+.nav_items:after{
+  display:block;
+  content: '';
+  border-bottom: 3px solid rgb(104, 66, 255);
+  transform: scaleX(0);  
+  transition: transform 500ms ease-in-out;
+}
+.nav_items:hover:after { transform: scaleX(1); }
+.nav_items:after{  transform-origin:  0% 50%; }
+
+.battle_button{
+  background-color: rgb(104, 66, 255);
 }
 
 .item_active{
-  background-color: rgb(104, 66, 255);
+  transform: translateY(-5px);
 }
