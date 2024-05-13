@@ -10,7 +10,7 @@ async function getTask(taskId: string) {
 }
 
 export default async function TasksPage({ params }: any) {
-    const task = await getTask(params.id)
+    const task = await getTask(params.id);
     return (
         <div className="px-4 py-4 w-max rounded-2xl mt-3">
             <h1 className="text-white">Tasks</h1>
