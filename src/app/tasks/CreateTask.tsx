@@ -1,61 +1,39 @@
 'use client'
 
-import { use, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function CreateTask() {
-    const [task_name, setTaskName] = useState('')
-    const [task_status, setTaskStatus] = useState('')
-    const [task_type, setTaskType] = useState('')
+    const [task_type, setTaskType] = useState('');
+    const [number, setNumber] = useState(0);
+    const [completed, setCompleted] = useState(false);
+
+    const list = ["eat healthy","exercise","do you'r homework"];
 
     const router = useRouter();
 
-    const create = async() => {
+    const create = async (e) => {
+        e.preventDefault();
+        
         await fetch('http://127.0.0.1:8090/api/collections/tasks/records', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                task_name,
-                task_status,
-                task_type
+                task_type,
+                number,
+                completed
             })
-        })
-
-        setTaskName('');
-        setTaskStatus('');
+        });
 
         router.refresh();
-    }
-    
+    };
+
     return (
         <div className="bg-gray-800 p-4 rounded-lg shadow-md max-w-md mx-auto">
             <form onSubmit={create} className="space-y-3">
                 <h3 className="text-lg font-bold text-white">Create a Task</h3>
-                <div>
-                    <label className="block text-sm font-medium text-gray-300" htmlFor="title">Title</label>
-                    <input
-                        id="title"
-                        type="text"
-                        name="Title"
-                        value={task_name}
-                        onChange={(e) => setTaskName(e.target.value)}
-                        className="mt-1 block w-full p-2 border border-gray-700 rounded-md bg-gray-900 text-white focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                    />
-                </div>
-                <div className="flex items-center">
-                    <input
-                        id="taskStatus"
-                        type="checkbox"
-                        checked={task_status}
-                        onChange={(e) => setTaskStatus(e.target.checked)}
-                        className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                    />
-                    <label htmlFor="taskStatus" className="ml-2 block text-sm font-medium text-gray-300">
-                        Task Status
-                    </label>
-                </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-300" htmlFor="taskType">Task Type</label>
                     <select
@@ -66,11 +44,48 @@ export default function CreateTask() {
                         className="mt-1 block w-full p-2 border border-gray-700 rounded-md bg-gray-900 text-white focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                     >
                         <option value="" disabled>Select Task Type</option>
-                        <option value="personal">Personal</option>
-                        <option value="work">Work</option>
-                        <option value="hobby">Hobby</option>
+                        <option value="wake up early">Wake up early</option>
+                        <option value="eat healthy">Eat healthy</option>
+                        <option value="do you'r homework">Do you'r homework</option>
+                        <option value="exercise">Exercise</option>
                     </select>
                 </div>
+
+                  {list.includes(task_type) && (
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-300" htmlFor="number">Number</label>                
+                        <input
+                            type="range"
+                            min={0}
+                            max={4}
+                            value={number}
+                            onChange={(e) => setNumber(Number(e.target.value))}
+                            className="range range-primary range-xs w-full bg-slate-500"
+                            step={1}
+                        />
+                        <div className="text-white w-full flex justify-between text-sm px-2">
+                            <span>0</span>
+                            <span>1</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                        </div>
+                    </div>
+                )}
+                {task_type === 'wake up early' && (
+                    <div>
+                        <label className="block text-sm font-medium text-gray-300" htmlFor="completed">Completed</label>
+                        <input
+                            type="checkbox"
+                            id="completed"
+                            name="completed"
+                            checked={completed}
+                            onChange={(e) => setCompleted(e.target.checked)}
+                            className="mt-1 block w-full p-2 border border-gray-700 rounded-md bg-gray-900 text-white focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                        />
+                    </div>
+                )}
                 <div>
                     <button
                         type="submit"
@@ -81,5 +96,6 @@ export default function CreateTask() {
                 </div>
             </form>
         </div>
-    )
+        
+    );
 }

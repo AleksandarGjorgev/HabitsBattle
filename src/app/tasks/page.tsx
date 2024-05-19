@@ -30,7 +30,6 @@ function Task({ task }: any){
     return (
         <Link href={`/tasks/${id}`}>
             <div className="p-4 bg-gray-800 rounded-lg shadow-md hover:bg-gray-700 transition-transform transform hover:scale-105">
-                <h2 className="text-xl font-semibold text-white">{title}</h2>
                 <p className="text-sm text-gray-400">Status: {task_status ? 'Completed' : 'Pending'}</p>
                 <p className="text-sm text-gray-400">Type: {task_type}</p>
                 <p className="text-xs text-gray-500">{created}</p>
