@@ -22,13 +22,14 @@ export default async function WelcomPage(){
     return(
 
         <div className="space-y-8">
-            <CreateTask />
             <h1 className="text-3xl font-bold text-white text-center">Tasks</h1>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div className="w-max">
+                
             {tasks?.map((task) => {
                 return <Task key={task.id} task={task} />;
             })}
             </div>
+            <CreateTask />
         </div>
     );
 }
@@ -37,11 +38,9 @@ function Task({ task }: any){
     const { id, title, task_status, task_type, created } = task || {};
 
     return (
-            <div className="card-body flex-row p-6 bg-gray-800 rounded-lg shadow-md hover:bg-gray-700 transition-transform transform hover:scale-105">
-                <div className="flex-1 text-white m-0 font-bold">{task_type}</div>
-                    <input type="checkbox" className="checkbox checkbox-primary checkbox-lg end-2" />
-{/*                 <p className="text-xs text-gray-500">{created}</p>
- */}                {/* <button onClick={() => deleteTask(id)} className="btn btn-neutral btn-xs" >Delete</button> */}
+            <div className="card-body flex-row p-6 bg-gray-800 rounded-lg shadow-md mt-4">
+                <div className="flex-1 text-white font-bold">{task_type}</div>
+                    <input type="checkbox" className="checkbox checkbox-primary checkbox-lg border-2 ml-12" />
             </div>
     );
 }

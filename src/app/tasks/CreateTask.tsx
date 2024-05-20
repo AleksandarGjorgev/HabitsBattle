@@ -8,7 +8,7 @@ export default function CreateTask() {
   const [number, setNumber] = useState(0);
   const [completed, setCompleted] = useState(false);
 
-  const list = ["Eat healthy🥗", "Exercise💪🏼",];
+  const list = ["Eat healthy 🥗", "Exercise 💪🏼",];
 
   const router = useRouter();
 
@@ -31,16 +31,10 @@ export default function CreateTask() {
   };
 
   return (
-    <div className="mt-10 bg-gray-800 p-4 rounded-lg shadow-md max-w-md mx-auto">
+    <div className="mt-10 bg-gray-800 p-4 rounded-lg shadow-md mx-auto max-w-md">
       <form onSubmit={create} className="space-y-3">
-        <h3 className="text-lg font-bold text-white">Create a Task</h3>
+        <h3 className="text-lg font-bold text-white text-center">Add a Task</h3>
         <div>
-          <label
-            className="block text-sm font-medium text-gray-300"
-            htmlFor="taskType"
-          >
-            Task Type
-          </label>
           <select
             id="taskType"
             name="taskType"
@@ -49,10 +43,10 @@ export default function CreateTask() {
             className="mt-1 block w-full p-2 border border-gray-700 rounded-md bg-gray-900 text-white focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
           >
             <option value="" disabled>Select an option</option>
-            <option value="Wake up early☀️">Wake up early☀️</option>
-            <option value="Do you'r homework📚">Do you'r homework📚</option>
-            <option value="Eat healthy🥗">Eat healthy🥗</option>
-            <option value="Exercise💪🏼">Exercise💪🏼</option>
+            <option value="Wake up early ☀️">Wake up early ☀️</option>
+            <option value="Do you'r homework 📚">Do you'r homework 📚</option>
+            <option value="Eat healthy 🥗">Eat healthy 🥗</option>
+            <option value="Exercise 💪🏼">Exercise 💪🏼</option>
           </select>
         </div>
 

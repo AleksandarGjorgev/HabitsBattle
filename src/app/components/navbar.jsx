@@ -19,7 +19,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <Disclosure as="nav" className="bg_secondary_color">
+    <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl h-32 px-2 sm:px-6 lg:px-8">
