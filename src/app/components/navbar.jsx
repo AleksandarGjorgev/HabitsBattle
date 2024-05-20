@@ -19,7 +19,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-800 sticky top-0">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl h-32 px-2 sm:px-6 lg:px-8">
@@ -47,7 +47,7 @@ const Navbar = () => {
                   </a>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
-                  <button className="battle_button text-4xl text-white rounded-2xl px-3 py-2">
+                  <button className="bg-indigo-600 text-4xl text-white rounded-2xl px-3 py-2">
                     Battle
                   </button>
                 </div>

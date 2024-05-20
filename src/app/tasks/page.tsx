@@ -21,15 +21,15 @@ export default async function WelcomPage(){
 
     return(
 
-        <div className="space-y-8">
-            <h1 className="text-3xl font-bold text-white text-center">Tasks</h1>
+        <div className="">
+            <CreateTask />
+            <h1 className="text-3xl font-bold text-white ml-2">Tasks</h1>
             <div className="w-max">
                 
             {tasks?.map((task) => {
                 return <Task key={task.id} task={task} />;
             })}
             </div>
-            <CreateTask />
         </div>
     );
 }
@@ -40,7 +40,7 @@ function Task({ task }: any){
     return (
             <div className="card-body flex-row p-6 bg-gray-800 rounded-lg shadow-md mt-4">
                 <div className="flex-1 text-white font-bold">{task_type}</div>
-                    <input type="checkbox" className="checkbox checkbox-primary checkbox-lg border-2 ml-12" />
+                <input type="checkbox" className="checkbox checkbox-lg border-indigo-800 checked:border-indigo-600 border-2 [--chkbg:theme(colors.indigo.600)]" />
             </div>
     );
 }

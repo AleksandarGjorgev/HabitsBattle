@@ -4,7 +4,7 @@
 
 
 body{
-  background-color: #11131f;
+  background-color: #1a1a1a;
 }
 
 .bg_primary_color{
@@ -26,9 +26,6 @@ body{
 .nav_items:hover:after { transform: scaleX(1); }
 .nav_items:after{  transform-origin:  0% 50%; }
 
-.battle_button{
-  background-color: rgb(104, 66, 255);
-}
 
 /* .item_active{
   transform: translateY(-5px);

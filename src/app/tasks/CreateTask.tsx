@@ -1,19 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function CreateTask() {
   const [task_type, setTaskType] = useState("");
   const [number, setNumber] = useState(0);
   const [completed, setCompleted] = useState(false);
-
-  const list = ["Eat healthy 🥗", "Exercise 💪🏼",];
+  const [options, setOptions] = useState(["Do you'r homework 📚", "Wake up early ☀️", "Eat healthy 🥗", "Exercise 💪🏼"]);
+  const multipleVariables = ["Eat healthy 🥗", "Exercise 💪🏼"];
 
   const router = useRouter();
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch('http://127.0.0.1:8090/api/collections/tasks/records?page=1&perPage=1000');
+      const data = await res.json();
+      const types = data?.items?.map((task: any) => task.task_type);
+      setOptions(options.filter((option) => !types.includes(option)));
+    };
+    fetchData();
+  }, []);
+
   const create = async (e) => {
     e.preventDefault();
+
+    if (!options.includes(task_type)) {
+      return;
+    }
 
     await fetch("http://127.0.0.1:8090/api/collections/tasks/records", {
       method: "POST",
@@ -26,7 +40,7 @@ export default function CreateTask() {
         completed,
       }),
     });
-
+    location.reload();
     router.refresh();
   };
 
@@ -43,22 +57,14 @@ export default function CreateTask() {
             className="mt-1 block w-full p-2 border border-gray-700 rounded-md bg-gray-900 text-white focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
           >
             <option value="" disabled>Select an option</option>
-            <option value="Wake up early ☀️">Wake up early ☀️</option>
-            <option value="Do you'r homework 📚">Do you'r homework 📚</option>
-            <option value="Eat healthy 🥗">Eat healthy 🥗</option>
-            <option value="Exercise 💪🏼">Exercise 💪🏼</option>
+            {options.map((option) => (
+              <option key={option} value={option}>{option}</option>
+            ))}
           </select>
         </div>
 
-        {list.includes(task_type) && (
-          <div>{/* 
-            <label
-              className="block text-sm font-medium text-gray-300 text-center"
-              htmlFor="number"
-            >
-              Count
-            </label> */}
-
+        {multipleVariables.includes(task_type) && (
+          <div>
             <div className="text-white w-full flex justify-between text-sm px-2">
               <span>0</span>
               <span>1</span>
@@ -88,3 +94,4 @@ export default function CreateTask() {
     </div>
   );
 }
+
