@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import CreateTask from "./CreateTask";
 import { time } from "console";
+import { Result } from "postcss";
 
 async function getTasks() {
   const res = await fetch(
@@ -14,10 +15,14 @@ async function getTasks() {
 }
 
 export async function deleteTask(taskId) {
-  await fetch(`http://127.0.0.1:8090/api/collections/tasks/records/${taskId}`, {
-    method: "DELETE",
-  });
-  location.reload();
+    var result = confirm("Are you sure you want to delete?");
+    if (result) {
+        await fetch(`http://127.0.0.1:8090/api/collections/tasks/records/${taskId}`, {
+            method: "DELETE",
+          });
+          location.reload();
+    }
+
 }
 
 export async function updateTask(taskId, updatedTask) {
@@ -52,7 +57,7 @@ export default function WelcomePage(task_type, id) {
             <button
               onClick={() => setTasks(tasks.map((task) => ({ ...task, isEditing: false })))}
             >
-              <span className="text-lg text-white">
+              <span className="text-white bg-success p-2 rounded-lg">
                 Save
               </span>
             </button>
@@ -62,7 +67,7 @@ export default function WelcomePage(task_type, id) {
                 setTasks(tasks.map((task) => ({ ...task, isEditing: true })))
               }
             >
-              <span className="text-lg text-white">
+              <span className="text-gray-300 p-2 hover:text-white">
                 Edit
               </span>
             </button>
@@ -85,6 +90,7 @@ function Task({task, updatedTask}) {
     const { id, task_type, number, created, isEditing } = task;
     const [currentNumber, setCurrentNumber] = useState(number);
     const [isChecked, setIsChecked] = useState(false);
+    const multipleVariables = ["Eat healthy 🥗", "Exercise 💪🏼"];
 
 
     function incrementValue() {
@@ -102,32 +108,37 @@ function Task({task, updatedTask}) {
     }
     saveValue();
     
-    var index = 0
+    const [index, setIndex] = useState(1);
+    const incrementIndex = () => {
+        setIndex((prevIndex) => prevIndex + 1);
+    }
+
     function handleCheckboxChange() {
-        if (index === number) {
+        if (index >= number) {
             setIsChecked(true);
         }
-        else if(index < number) {
+        else if(index < number+1) {
             setIsChecked(true);
             const timer = setTimeout(() => {
                 setIsChecked(false);
             }, 400)
         }
-        index = index + 1;
+        incrementIndex();
+
     }
 
     return (
         <>
             {isEditing ? (
-                 <div className="card-body flex-row p-6 bg-gray-800 rounded-lg shadow-md mt-4 items-center">
+                 <div className="card-body flex-row p-6 bg-gray-800 rounded-lg shadow-md mt-4 items-center relative">
 
                     <div className="flex-1 text-white font-bold my-auto pt-3 pb-3">{task_type}</div>
-                    {number > 0 &&(
+                    {multipleVariables.includes(task_type) &&(
                     <div className="flex items-center">
-                        <div className="text-white my-auto text-lg mr-1">
-                            {currentNumber}
+                        <div className="text-gray-200 my-auto mr-1">
+                            {currentNumber}/3
                         </div>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col mr-8">
                             <button className="text-gray-400" onClick={incrementValue}>
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
@@ -141,15 +152,17 @@ function Task({task, updatedTask}) {
                         </div>
                     </div>
                     )}
-                    <button className="text-gray-400 hover:scale-110 hover:text-white transition" onClick={() => deleteTask(id)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+                    <div className="absolute top-2 right-2">
+                        <button className="text-gray-400 hover:text-white transition" onClick={() => deleteTask(id)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             ) : (
                 <>                   
-                    {isChecked && index === number ? (
+                    {isChecked && index > number ? (
                         <div className="card-body flex-row p-6 bg-success rounded-lg shadow-md mt-4 items-center duration-300">
                             <div className="flex-1 text-white font-bold my-auto pt-3 pb-3">{task_type}</div>
                             <input
@@ -161,7 +174,7 @@ function Task({task, updatedTask}) {
                     ) : (
                         <div className="card-body flex-row p-6 bg-gray-800 rounded-lg shadow-md mt-4 items-center">
                         <div className="flex-1 text-white font-bold my-auto pt-3 pb-3">{task_type}</div>
-                           
+                        <div className="text-gray-400">{index-1}/{number}</div>
                             <input
                                 type="checkbox"
                                 className="checkbox checkbox-lg border-indigo-800 checked:border-indigo-600 border-2 [--chkbg:theme(colors.indigo.600)] duration-1000"
@@ -176,3 +189,4 @@ function Task({task, updatedTask}) {
         </>
     );
 }
+

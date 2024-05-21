@@ -53,7 +53,10 @@ export default function CreateTask() {
             id="taskType"
             name="taskType"
             value={task_type}
-            onChange={(e) => setTaskType(e.target.value)}
+            onChange={(e) => {
+              setTaskType(e.target.value);
+              setNumber(1);
+            }}
             className="mt-1 block w-full p-2 border border-gray-700 rounded-md bg-gray-900 text-white focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
           >
             <option value="" disabled>Select an option</option>
