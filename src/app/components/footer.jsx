@@ -2,7 +2,7 @@
 
 const Footer = () => {
     return (
-        <footer className="footer h-max p-2 md:p-5 bg-gray-800 text-neutral-content bottom-0 left-0 right-0">
+        <footer className="footer h-max p-2 md:p-5 bg-gray-800 text-neutral-content mt-20 mb-0">
             <aside>
                 <img src="/img/logo_transparent.png" alt="" className="w-20" />
                 <p>Copyright © 2022 - All right reserved by Aleksandar Gjorgev</p>
