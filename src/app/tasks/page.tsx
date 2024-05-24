@@ -14,7 +14,7 @@ async function getTasks() {
   return data?.items || [];
 }
 
-export async function deleteTask(taskId) {
+export async function deleteTask(taskId: string) {
     var result = confirm("Are you sure you want to delete?");
     if (result) {
         await fetch(`http://127.0.0.1:8090/api/collections/tasks/records/${taskId}`, {
@@ -25,7 +25,17 @@ export async function deleteTask(taskId) {
 
 }
 
-export async function updateTask(taskId, updatedTask) {
+interface TaskProps {
+  task: {
+    id: string;
+    task_type: string;
+    number: number;
+    created: string;
+    isEditing: boolean;
+  };
+}
+
+/* export async function updateTask(taskId, updatedTask) {
   await fetch(`http://127.0.0.1:8090/api/collections/tasks/records/${taskId}`, {
     method: "PUT",
     headers: {
@@ -33,11 +43,10 @@ export async function updateTask(taskId, updatedTask) {
     },
     body: JSON.stringify(updatedTask),
   });
-}
+} */
 
-export default function WelcomePage(task_type, id) {
-  const [tasks, setTasks] = useState([]);
-  const [isSaving, setIsSaving] = useState(false);
+export default function WelcomePage() {
+  const [tasks, setTasks] = useState<TaskProps[]>([]);
 
   useEffect(() => {
     async function fetchTasks() {
@@ -55,7 +64,9 @@ export default function WelcomePage(task_type, id) {
         <h1 className="text-3xl flex-1 font-bold text-white ml-2">Tasks</h1>
         {tasks.some((task) => task.isEditing) ? 
             <button
-              onClick={() => setTasks(tasks.map((task) => ({ ...task, isEditing: false })))}
+              onClick={() => {
+                setTasks(tasks.map((task) => ({ ...task, isEditing: false })));
+              }}
             >
               <span className="text-white bg-success p-2 rounded-lg">
                 Save
@@ -78,15 +89,15 @@ export default function WelcomePage(task_type, id) {
           <Task
             key={task.id}
             task={task}
-            updateTask={updateTask}
-          />
+            />
         ))}
       </div>
     </div>
   );
 }
 
-function Task({task, updatedTask}) {
+
+function Task({ task }: TaskProps) {
     const { id, task_type, number, created, isEditing } = task;
     const [currentNumber, setCurrentNumber] = useState(number);
     const [isChecked, setIsChecked] = useState(false);
@@ -94,19 +105,13 @@ function Task({task, updatedTask}) {
 
 
     function incrementValue() {
-        setCurrentNumber(prevNumber => Math.min(prevNumber + 1, 3));
+        setCurrentNumber((prevNumber: number) => Math.min(prevNumber + 1, 3));
     }
 
     function decrementValue() {
-        setCurrentNumber(prevNumber => Math.max(prevNumber - 1, 1));
+        setCurrentNumber((prevNumber: number) => Math.max(prevNumber - 1, 1));
     }
 
-    function saveValue() {
-        if (!isEditing) {
-            updateTask(id, { number: currentNumber });
-        }
-    }
-    saveValue();
     
     const [index, setIndex] = useState(1);
     const incrementIndex = () => {

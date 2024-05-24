@@ -22,7 +22,8 @@ export default function CreateTask() {
     fetchData();
   }, []);
 
-  const create = async (e) => {
+  
+  const create = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!options.includes(task_type)) {
